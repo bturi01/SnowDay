@@ -13,14 +13,16 @@ import org.json.JSONObject;
 import com.example.benjamin.snowday.model.Location;
 import com.example.benjamin.snowday.model.Weather;
 
+import android.widget.*;
+import android.view.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.Menu;
-import android.widget.ImageView;
-import android.widget.TextView;
+//import android.widget.ImageView;
+//import android.widget.TextView;
 
 
 public class MainActivity extends Activity{
@@ -35,13 +37,41 @@ public class MainActivity extends Activity{
 
     private TextView hum;
     private ImageView imgView;
-
+    private Button searchButton;
+    private EditText locationString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String city = "London,UK";
+
+        searchButton = (Button)findViewById(R.id.go_button);
+        locationString   = (EditText)findViewById(R.id.location_entry);
+        searchButton.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    public void onClick(View view)
+                    {
+                       String city= locationString.getText().toString();
+
+
+                        setContentView(R.layout.output);
+                        cityText = (TextView) findViewById(R.id.cityText);
+                        condDescr = (TextView) findViewById(R.id.condDesc);
+                        temp = (TextView) findViewById(R.id.temp);
+                        hum = (TextView) findViewById(R.id.hum);
+                        press = (TextView) findViewById(R.id.press);
+                        windSpeed = (TextView) findViewById(R.id.windSpeed);
+                        windDeg = (TextView) findViewById(R.id.windDeg);
+                        imgView = (ImageView) findViewById(R.id.imgView);
+
+                        JSONWeatherTask task = new JSONWeatherTask();
+                        task.execute(new String[]{city});
+
+                    }
+                });
+
+        /*setContentView(R.layout.output);
 
         cityText = (TextView) findViewById(R.id.cityText);
         condDescr = (TextView) findViewById(R.id.condDesc);
@@ -52,8 +82,8 @@ public class MainActivity extends Activity{
         windDeg = (TextView) findViewById(R.id.windDeg);
         imgView = (ImageView) findViewById(R.id.imgView);
 
-        JSONWeatherTask task = new JSONWeatherTask();
-        task.execute(new String[]{city});
+        //JSONWeatherTask task = new JSONWeatherTask();
+        //task.execute(new String[]{city});*/
     }
 
     @Override
